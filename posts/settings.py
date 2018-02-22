@@ -24,7 +24,7 @@ SECRET_KEY = 'jl#u#@yb8(c8&=m+z5k%wh)b*oz=+nry&-0in+r!%e2$6!zg_0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['parkam-posts.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
