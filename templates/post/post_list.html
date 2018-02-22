@@ -2,11 +2,11 @@
 {% block content %}
     <div id="app">
         <!-- Add Post modal -->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="add-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <h3 class="display-4 m-4">Add New Post</h3>
-                    <form class="col-lg-12" autocomplete="off" @submit.prevent="addPost()">
+                    <form id="add-form" class="col-lg-12" autocomplete="off" @submit.prevent="addPost()">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -120,8 +120,16 @@
                                     if (history.pushState) {
                                         const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?success=true';
                                         window.history.pushState({path: newurl}, '', newurl);
+                                        const newPosts = this.getPosts();
+                                        this.posts = this.posts.concat(newPosts);
+                                        $('.modal').modal('hide');
+                                        for (let key in this.form) {
+                                            if (this.form.hasOwnProperty(key)) {
+                                                this.form[key] = '';
+                                            }
+                                        }
+                                        document.getElementById('add-form').reset();
                                     }
-                                    window.location.href = '?success=true';
                                 })
                                 .catch(function (error) {
                                     // Server Errors
@@ -140,7 +148,6 @@
                                         }
                                     }
                                 });
-                            return;
                         }
                     });
                 },
@@ -162,7 +169,6 @@
                     axios.defaults.xsrfCookieName = 'csrftoken';
                     axios.defaults.xsrfHeaderName = 'X-CSRFToken';
                     return axios.delete('/post/', {data: {id: id}}).then((posts) => {
-                        console.log(posts);
                         const newPosts = this.getPosts();
                         this.posts = this.posts.concat(newPosts)
                     })

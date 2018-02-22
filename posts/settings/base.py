@@ -1,6 +1,6 @@
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 SECRET_KEY = 'jl#u#@yb8(c8&=m+z5k%wh)b*oz=+nry&-0in+r!%e2$6!zg_0'
 
@@ -37,7 +37,7 @@ ROOT_URLCONF = 'posts.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates"), ],
+        'DIRS': [os.path.join(BASE_DIR, "./Templates"), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
