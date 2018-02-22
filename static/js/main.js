@@ -13,7 +13,3 @@ function getCookie(cname) {
     }
     return "";
 }
-
-function spinner() {
-    document.getElementById('spinner').style.display = 'none';
-}

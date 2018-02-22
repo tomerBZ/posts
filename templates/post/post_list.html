@@ -178,7 +178,7 @@
             },
             mounted() {
                 this.getPosts();
-                spinner();
+                document.getElementById('spinner').style.display = 'none';
                 if (document.getElementById('success') !== null) {
                     setTimeout(function () {
                         document.getElementById('success').parentNode.removeChild(document.getElementById('success'))
