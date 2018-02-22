@@ -1,0 +1,190 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div id="app">
+        <!-- Add Post modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <h3 class="display-4 m-4">Add New Post</h3>
+                    <form class="col-lg-12" autocomplete="off" @submit.prevent="addPost()">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="post" class="bmd-label-floating">Post Content</label>
+                                    <textarea rows="11" name="post" class="form-control" id="post" v-model="form.post" v-validate="'required'"
+                                              :class="{'input': true, 'is-danger': errors.has('post') }"></textarea>
+                                    <span v-show="errors.has('post')" class="help text-danger">[[ errors.first('post') ]]</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="title" class="bmd-label-floating">Post Title</label>
+                                    <input type="text" name="title" class="form-control" id="title" v-model="form.title" autocomplete="off" v-validate="'required|alpha_spaces'"
+                                           :class="{'input': true, 'is-danger': errors.has('title') }">
+                                    <span v-show="errors.has('title')" class="help text-danger">[[ errors.first('title') ]]</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="author" class="bmd-label-floating">Author</label>
+                                    <input type="text" class="form-control" v-model="form.author" name="author" id="author" v-validate="'required|alpha_spaces'"
+                                           :class="{'input': true, 'is-danger': errors.has('author') }">
+                                    <span v-show="errors.has('author')" class="help text-danger">[[ errors.first('author') ]]</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category" class="bmd-label-floating">Category</label>
+                                    <input type="text" class="form-control" name="category" id="category" v-model="form.category" v-validate="'required'"
+                                           :class="{'input': true, 'is-danger': errors.has('category') }">
+                                    <span v-show="errors.has('category')" class="help text-danger">[[ errors.first('category') ]]</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start align-items-center">
+                            <button class="btn btn-raised btn-secondary mr-2" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-raised">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h1 class="display-3 mb-5">[[ title ]]</h1>
+            {% if request.GET.success %}
+                <div id="success" role="alert" class="alert alert-success">Success New Post Has Been Added</div>
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Post</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="post in posts">
+                        <td>[[ post.author ]]</td>
+                        <td>[[ post.title ]]</td>
+                        <td>[[ post.category ]]</td>
+                        <td>[[ post.post ]]</td>
+                        <td class="text-center">
+                            <button class="btn btn-raised btn-danger" :id="post.id" @click="deleteRow($event)"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p>Total Posts: [[ postsCount ]]</p>
+                    <div id="pagination">
+                        <button :disabled="previousPage === null" class="btn btn-raised btn-info" @click="loadPreviousPosts()"><i class="fas fa-angle-left"></i></button>
+                        <button :disabled="nextPage === null" class="btn btn-raised btn-info" @click="loadNextPosts()"><i class="fas fa-angle-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <button id="addPost" data-toggle="modal" data-target=".modal" type="button" class="btn btn-success bmd-btn-fab">
+                <i class="material-icons">add</i>
+            </button>
+        </div>
+    </div>
+    <link rel="stylesheet" href="static/css/list.css">
+    <link rel="stylesheet" href="static/css/add.css">
+    <script src="https://unpkg.com/vee-validate@2.0.0-rc.7"></script>
+    <script>
+        Vue.use(VeeValidate);
+        new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#app',
+            data: {
+                postsCount: 0,
+                nextPage: '',
+                previousPage: '',
+                posts: [],
+                title: 'Recent Posts',
+                form: {
+                    author: '',
+                    title: '',
+                    category: '',
+                    post: '',
+                }
+            },
+            computed: {},
+            methods: {
+                addPost() {
+                    this.$validator.validateAll().then((result) => {
+                        if (result) {
+                            axios.defaults.xsrfCookieName = 'csrftoken';
+                            axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+                            return axios.post('http://127.0.0.1:8000/post/', this.form)
+                                .then((posts) => {
+                                    // Success
+                                    if (history.pushState) {
+                                        const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?success=true';
+                                        window.history.pushState({path: newurl}, '', newurl);
+                                    }
+                                    window.location.href = '?success=true';
+                                })
+                                .catch(function (error) {
+                                    // Server Errors
+                                    const errorObject = error.response.data.data;
+                                    for (let key in errorObject) {
+                                        if (errorObject.hasOwnProperty(key)) {
+                                            let span = document.createElement('span');
+                                            let input = document.getElementById(key);
+                                            if (document.getElementById('error-' + key) !== null) {
+                                                document.getElementById('error-' + key).parentNode.removeChild(document.getElementById('error-' + key))
+                                            }
+                                            span.innerHTML = errorObject[key];
+                                            span.className = 'text-danger';
+                                            span.id = 'error-' + key;
+                                            input.parentNode.insertBefore(span, input);
+                                        }
+                                    }
+                                });
+                            return;
+                        }
+                    });
+                },
+                getPosts(url = '') {
+                    return axios.get(url !== '' ? url : 'http://127.0.0.1:8000/post/list').then((posts) => {
+                        this.posts = posts.data.results;
+                        this.postsCount = posts.data.count;
+                        this.nextPage = posts.data.next;
+                        this.previousPage = posts.data.previous;
+                    })
+                },
+                deleteRow(event) {
+                    this.removePost(event.path[0].id !== '' ? event.path[0].id : event.path[1].id);
+                },
+                addPage() {
+                    window.location.href = '/add'
+                },
+                removePost(id) {
+                    axios.defaults.xsrfCookieName = 'csrftoken';
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+                    return axios.delete('http://127.0.0.1:8000/post/', {data: {id: id}}).then((posts) => {
+                        console.log(posts);
+                        const newPosts = this.getPosts();
+                        this.posts = this.posts.concat(newPosts)
+                    })
+                },
+                loadNextPosts() {
+                    const newPosts = this.getPosts(this.nextPage);
+                    this.posts = this.posts.concat(newPosts)
+                },
+                loadPreviousPosts() {
+                    const newPosts = this.getPosts(this.previousPage);
+                    this.posts = this.posts.concat(newPosts)
+                }
+            },
+            mounted() {
+                this.getPosts();
+                spinner();
+                if (document.getElementById('success') !== null) {
+                    setTimeout(function () {
+                        document.getElementById('success').parentNode.removeChild(document.getElementById('success'))
+                    }, 3000)
+                }
+            }
+        })
+    </script>
+{% endblock %}

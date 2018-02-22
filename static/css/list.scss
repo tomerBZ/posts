@@ -1,0 +1,39 @@
+@import "variables";
+
+.table {
+  thead {
+    th {
+      color: #fafafa;
+      background-color: #212529;
+      border-color: #32383e;
+      text-align: center;
+    }
+  }
+}
+
+.table thead th {
+  color: #fafafa;
+  background-color: #212529;
+  border-color: #32383e;
+}
+
+#addPost {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+}
+
+div.alert {
+  -moz-animation-duration: .3s;
+  -o-animation-duration: .3s;
+  -webkit-animation-duration: .3s;
+  animation-duration: .3s;
+  -moz-animation-name: fadeAndScale;
+  -o-animation-name: fadeAndScale;
+  -webkit-animation-name: fadeAndScale;
+  animation-name: fadeAndScale;
+  -moz-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+  -o-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+  -webkit-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+  animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+}

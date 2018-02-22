@@ -1,0 +1,65 @@
+$main-blue: #259AC3;
+
+
+
+
+ @-webkit-keyframes fadeAndScale {
+
+            from {
+                opacity: 0;
+                -moz-transform: scale(.9, .9);
+                -ms-transform: scale(.9, .9);
+                -o-transform: scale(.9, .9);
+                -webkit-transform: scale(.9, .9);
+                transform: scale(.9, .9);
+            }
+
+            to {
+                opacity: 1;
+                -moz-transform: scale(1, 1);
+                -ms-transform: scale(1, 1);
+                -o-transform: scale(1, 1);
+                -webkit-transform: scale(1, 1);
+                transform: scale(1, 1);
+            }
+        }
+
+        @-moz-keyframes fadeAndScale {
+            from {
+                opacity: 0;
+                -moz-transform: scale(.9, .9);
+                -ms-transform: scale(.9, .9);
+                -o-transform: scale(.9, .9);
+                -webkit-transform: scale(.9, .9);
+                transform: scale(.9, .9);
+            }
+
+            to {
+                opacity: 1;
+                -moz-transform: scale(1, 1);
+                -ms-transform: scale(1, 1);
+                -o-transform: scale(1, 1);
+                -webkit-transform: scale(1, 1);
+                transform: scale(1, 1);
+            }
+        }
+
+        @keyframes fadeAndScale {
+            from {
+                opacity: 0;
+                -moz-transform: scale(.9, .9);
+                -ms-transform: scale(.9, .9);
+                -o-transform: scale(.9, .9);
+                -webkit-transform: scale(.9, .9);
+                transform: scale(.9, .9);
+            }
+
+            to {
+                opacity: 1;
+                -moz-transform: scale(1, 1);
+                -ms-transform: scale(1, 1);
+                -o-transform: scale(1, 1);
+                -webkit-transform: scale(1, 1);
+                transform: scale(1, 1);
+            }
+        }

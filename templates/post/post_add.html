@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div id="app">
+        <div class="container">
+            <div class="row">
+                <form class="col-lg-12" autocomplete="off" @submit.prevent="addPost()">
+                    <header>
+                        <h1 class="display-3 mb-5">[[ title ]]</h1>
+                    </header>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="post" class="bmd-label-floating">Post Content</label>
+                                <textarea rows="11" name="post" class="form-control" id="post" v-model="form.post" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('post') }"></textarea>
+                                <span v-show="errors.has('post')" class="help text-danger">[[ errors.first('post') ]]</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="title" class="bmd-label-floating">Post Title</label>
+                                <input type="text" name="title" class="form-control" id="title" v-model="form.title" autocomplete="off" v-validate="'required|alpha_spaces'" :class="{'input': true, 'is-danger': errors.has('title') }">
+                                <span v-show="errors.has('title')" class="help text-danger">[[ errors.first('title') ]]</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="author" class="bmd-label-floating">Author</label>
+                                <input type="text" class="form-control" v-model="form.author" name="author" id="author" v-validate="'required|alpha_spaces'" :class="{'input': true, 'is-danger': errors.has('author') }">
+                                <span v-show="errors.has('author')" class="help text-danger">[[ errors.first('author') ]]</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="category" class="bmd-label-floating">Category</label>
+                                <input type="text" class="form-control"  name="category" id="category" v-model="form.category" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('category') }">
+                                    {% for category in categories %}
+                                        <option value="{{ category }}">{{ category }}</option>
+                                    {% endfor %}
+                                </select>
+                                <span v-show="errors.has('category')" class="help text-danger">[[ errors.first('category') ]]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <button v-on:click="back()" class="btn btn-raised btn-secondary mr-2">Back</button>
+                        <button type="submit" class="btn btn-primary btn-raised">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="static/css/add.css">
+    <script src="https://unpkg.com/vee-validate@2.0.0-rc.7"></script>
+    <script>
+        Vue.use(VeeValidate);
+        new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#app',
+            data: {
+                form: {
+                    author: '',
+                    title: '',
+                    category: '',
+                    post: '',
+                },
+                title: 'Add New Post'
+            },
+            computed: {},
+            methods: {
+                addPost() {
+                    this.$validator.validateAll().then((result) => {
+                        if (result) {
+                            axios.defaults.xsrfCookieName = 'csrftoken';
+                            axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+                            return axios.post('http://127.0.0.1:8000/post/', this.form)
+                                .then((posts) => {
+                                    // Success
+                                    this.back('success=true')
+                                })
+                                .catch(function (error) {
+                                    // Server Errors
+                                    const errorObject = error.response.data.data;
+                                    for (let key in errorObject) {
+                                        if (errorObject.hasOwnProperty(key)) {
+                                            let span = document.createElement('span');
+                                            let input = document.getElementById(key);
+                                            if (document.getElementById('error-' + key) !== null) {
+                                                document.getElementById('error-' + key).parentNode.removeChild(document.getElementById('error-' + key))
+                                            }
+                                            span.innerHTML = errorObject[key];
+                                            span.className = 'text-danger';
+                                            span.id = 'error-' + key;
+                                            input.parentNode.insertBefore(span, input);
+                                        }
+                                    }
+                                });
+                            return;
+                        }
+                    });
+                },
+                back(params = null) {
+                    if (params !== null) {
+                        window.location.href = '/?' + params
+                    } else {
+                        window.location.href = '/'
+                    }
+                }
+            },
+            mounted() {
+                spinner();
+            }
+        })
+    </script>
+{% endblock %}

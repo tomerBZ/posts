@@ -1,0 +1,22 @@
+@import "variables";
+
+div.bmd-form-group {
+  span.text-danger {
+    -moz-animation-duration: .3s;
+    -o-animation-duration: .3s;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -moz-animation-name: fadeAndScale;
+    -o-animation-name: fadeAndScale;
+    -webkit-animation-name: fadeAndScale;
+    animation-name: fadeAndScale;
+    -moz-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+    -o-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+    -webkit-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+    animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+  }
+}
+
+textarea.form-control {
+      padding-bottom: 18px;
+}
