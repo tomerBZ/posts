@@ -29,10 +29,6 @@
                             <div class="form-group">
                                 <label for="category" class="bmd-label-floating">Category</label>
                                 <input type="text" class="form-control"  name="category" id="category" v-model="form.category" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('category') }">
-                                    {% for category in categories %}
-                                        <option value="{{ category }}">{{ category }}</option>
-                                    {% endfor %}
-                                </select>
                                 <span v-show="errors.has('category')" class="help text-danger">[[ errors.first('category') ]]</span>
                             </div>
                         </div>
@@ -68,7 +64,7 @@
                         if (result) {
                             axios.defaults.xsrfCookieName = 'csrftoken';
                             axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-                            return axios.post('http://127.0.0.1:8000/post/', this.form)
+                            return axios.post('/post/', this.form)
                                 .then((posts) => {
                                     // Success
                                     this.back('success=true')

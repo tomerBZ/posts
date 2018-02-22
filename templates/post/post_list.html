@@ -114,7 +114,7 @@
                         if (result) {
                             axios.defaults.xsrfCookieName = 'csrftoken';
                             axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-                            return axios.post('http://127.0.0.1:8000/post/', this.form)
+                            return axios.post('/post/', this.form)
                                 .then((posts) => {
                                     // Success
                                     if (history.pushState) {
@@ -145,7 +145,7 @@
                     });
                 },
                 getPosts(url = '') {
-                    return axios.get(url !== '' ? url : 'http://127.0.0.1:8000/post/list').then((posts) => {
+                    return axios.get(url !== '' ? url : '/post/list').then((posts) => {
                         this.posts = posts.data.results;
                         this.postsCount = posts.data.count;
                         this.nextPage = posts.data.next;
@@ -161,7 +161,7 @@
                 removePost(id) {
                     axios.defaults.xsrfCookieName = 'csrftoken';
                     axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-                    return axios.delete('http://127.0.0.1:8000/post/', {data: {id: id}}).then((posts) => {
+                    return axios.delete('/post/', {data: {id: id}}).then((posts) => {
                         console.log(posts);
                         const newPosts = this.getPosts();
                         this.posts = this.posts.concat(newPosts)
