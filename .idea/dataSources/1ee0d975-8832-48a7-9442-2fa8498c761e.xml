@@ -9,6 +9,7 @@
     </database>
     <database id="3" parent="1" name="parkam-posts">
       <ObjectId>16384</ObjectId>
+      <Current>1</Current>
       <Visible>1</Visible>
     </database>
     <schema id="4" parent="2" name="public">
