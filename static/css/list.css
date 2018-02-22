@@ -71,6 +71,11 @@ div.alert {
   -moz-animation-timing-function: cubic-bezier(0.71, 0.55, 0.62, 1.57);
   -o-animation-timing-function: cubic-bezier(0.71, 0.55, 0.62, 1.57);
   -webkit-animation-timing-function: cubic-bezier(0.71, 0.55, 0.62, 1.57);
-  animation-timing-function: cubic-bezier(0.71, 0.55, 0.62, 1.57); }
+  animation-timing-function: cubic-bezier(0.71, 0.55, 0.62, 1.57);
+  position: fixed;
+  max-width: 270px;
+  bottom: 0;
+  z-index: 999;
+  left: 10px; }
 
 /*# sourceMappingURL=list.css.map */

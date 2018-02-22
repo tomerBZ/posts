@@ -36,4 +36,9 @@ div.alert {
   -o-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
   -webkit-animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
   animation-timing-function: cubic-bezier(.71, .55, .62, 1.57);
+  position: fixed;
+  max-width: 270px;
+  bottom: 0;
+  z-index: 999;
+  left: 10px;
 }

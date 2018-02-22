@@ -48,9 +48,6 @@
         <div class="container">
             <div class="row" v-if="posts.length > 0">
                 <h1 class="display-3 mb-5">[[ title ]]</h1>
-                {% if request.GET.success %}
-                    <div id="success" role="alert" class="alert alert-success col-12">Success New Post Has Been Added</div>
-                {% endif %}
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -89,6 +86,7 @@
                 </h1>
                 <h2 class="display-4">Please Add New Post</h2>
             </div>
+            <div id="success" role="alert" class="alert alert-success col-12" v-if="success">Success New Post Has Been Added</div>
             <button id="addPost" data-toggle="modal" data-target=".modal" type="button" class="btn btn-primary bmd-btn-fab">
                 <i class="material-icons">add</i>
             </button>
@@ -103,6 +101,7 @@
             delimiters: ['[[', ']]'],
             el: '#app',
             data: {
+                success: false,
                 postsCount: 0,
                 nextPage: '',
                 previousPage: '',
@@ -125,19 +124,20 @@
                             return axios.post('/post/', this.form)
                                 .then((posts) => {
                                     // Success
-                                    if (history.pushState) {
-                                        const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?success=true';
-                                        window.history.pushState({path: newurl}, '', newurl);
-                                        const newPosts = this.getPosts();
-                                        this.posts = this.posts.concat(newPosts);
-                                        $('.modal').modal('hide');
-                                        for (let key in this.form) {
-                                            if (this.form.hasOwnProperty(key)) {
-                                                this.form[key] = '';
-                                            }
+                                    const newPosts = this.getPosts();
+                                    this.posts = this.posts.concat(newPosts);
+                                    $('.modal').modal('hide');
+                                    for (let key in this.form) {
+                                        if (this.form.hasOwnProperty(key)) {
+                                            this.form[key] = '';
                                         }
-                                        document.getElementById('add-form').reset();
                                     }
+                                    document.getElementById('add-form').reset();
+                                    this.success = true;
+                                    let self = this;
+                                    setTimeout(function () {
+                                        self.success = false;
+                                    }, 3000);
                                 })
                                 .catch(function (error) {
                                     // Server Errors
@@ -193,11 +193,6 @@
             mounted() {
                 this.getPosts();
                 document.getElementById('spinner').style.display = 'none';
-                if (document.getElementById('success') !== null) {
-                    setTimeout(function () {
-                        document.getElementById('success').parentNode.removeChild(document.getElementById('success'))
-                    }, 3000)
-                }
             }
         })
     </script>
