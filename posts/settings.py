@@ -57,11 +57,11 @@ WSGI_APPLICATION = 'posts.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'parkam-posts',
-        'USER': 'postgres',
-        'PASSWORD': '142267',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'dfrs1ufa24k3o3',
+        'USER': 'qunzqxysaoreew',
+        'PASSWORD': 'ef7d1acdef3c84d16892b7f5ea80f49e00c179b2bb2ae7e8a493dd71a0bafd74',
+        'HOST': 'ec2-79-125-110-209.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -96,12 +96,56 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, "static"),
-]
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 5
 }
+
+"""
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'parkam-posts',
+        'USER': 'postgres',
+        'PASSWORD': '142267',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR, "static"),
+]
+
+"""
+
+
+"""
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'dfrs1ufa24k3o3',
+    'USER': 'qunzqxysaoreew',
+    'PASSWORD': 'ef7d1acdef3c84d16892b7f5ea80f49e00c179b2bb2ae7e8a493dd71a0bafd74',
+    'HOST': 'ec2-79-125-110-209.eu-west-1.compute.amazonaws.com',
+    'PORT': '5432',
+},
+"""
