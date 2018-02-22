@@ -74,14 +74,22 @@ WSGI_APPLICATION = 'posts.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-        'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'parkam-posts',
-        'USER': 'postgres',
-        'PASSWORD': '142267',
+        'NAME': 'd97bttvnr7qffi',
+        'USER': 'kmryssvusverpb',
+        'PASSWORD': 'fc8b24d065d5c309b266c4cb8baefea6d1dd0e115bd754841f2eba00f3a8cb1c',
         'HOST': 'localhost',
-        'PORT': '',
-    }
+        'PORT': '5432',
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'parkam-posts',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '142267',
+    #     'HOST': 'localhost',
+    #     'PORT': '',
+    # }
 }
 
 # Password validation
@@ -135,7 +143,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
