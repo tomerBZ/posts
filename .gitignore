@@ -10,3 +10,7 @@ src/*.egg-info
 lib
 lib64
 postsenv
+.idea
+post/__pycache__/
+post/migrations/__pycache__/
+posts/__pycache__/
