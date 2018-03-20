@@ -1,4 +1,4 @@
-# Posts
+# Django Posts Application using VueJS 
 
 ## Dependencies
 This project was created with the following technologies:
